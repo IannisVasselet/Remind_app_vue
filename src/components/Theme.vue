@@ -1,14 +1,16 @@
 <template>
-    <div>
+    <div class="themes">
         <h1>Thèmes</h1>
-        <ul>
-            <li v-for="(theme, index) in themeStore.themes" :key="index">
+        <ul class="theme-list">
+            <li v-for="(theme, index) in themeStore.themes" :key="index" class="theme-item">
                 {{ theme.name }}
-                <button @click="themeStore.removeTheme(index)">Supprimer</button>
+                <button class="theme-delete" @click="themeStore.removeTheme(index)">Supprimer</button>
             </li>
         </ul>
-        <input v-model="newThemeName" placeholder="Nom du thème" />
-        <button @click="addTheme">Ajouter un thème</button>
+        <div class="theme-input-container">
+            <input v-model="newThemeName" class="theme-input" placeholder="Nom du thème" />
+            <button class="theme-add" @click="addTheme">Ajouter un thème</button>
+        </div>
     </div>
 </template>
 
@@ -30,3 +32,69 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.themes {
+    padding: 2rem;
+}
+
+.themes h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.theme-list {
+    list-style: none;
+    padding: 0;
+}
+
+.theme-item {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.theme-delete {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.theme-delete:hover {
+    background-color: #d32f2f;
+}
+
+.theme-input-container {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.theme-input {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+}
+
+.theme-add {
+    background-color: #4DBA87;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.theme-add:hover {
+    background-color: #319a6b;
+}
+</style>

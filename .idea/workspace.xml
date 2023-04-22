@@ -16,9 +16,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Vue Single File Component" />
         <option value="JavaScript File" />
-        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -80,7 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1682149228971</updated>
       <workItem from="1682149230988" duration="5811000" />
-      <workItem from="1682155101916" duration="333000" />
+      <workItem from="1682155101916" duration="8997000" />
     </task>
     <servers />
   </component>
