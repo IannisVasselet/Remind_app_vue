@@ -1,34 +1,94 @@
+<!--<template>-->
+<!--    <div class="themes">-->
+<!--        <h1>Thèmes</h1>-->
+<!--        <ul class="theme-list">-->
+<!--            <li v-for="(theme, index) in themeStore.themes" :key="index" class="theme-item">-->
+<!--                {{ theme.name }}-->
+<!--                <button class="theme-delete" @click="themeStore.removeTheme(index)">Supprimer</button>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--        <div class="theme-input-container">-->
+<!--            <input v-model="newThemeName" class="theme-input" placeholder="Nom du thème" />-->
+<!--            <button class="theme-add" @click="addTheme">Ajouter un thème</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</template>-->
+
+<!--<script>-->
+<!--import { ref } from 'vue';-->
+<!--import { useThemeStore } from '../stores/themeStore';-->
+
+<!--export default {-->
+<!--    setup() {-->
+<!--        const themeStore = useThemeStore();-->
+<!--        const newThemeName = ref('');-->
+
+<!--        function addTheme() {-->
+<!--            themeStore.addTheme({ name: newThemeName.value });-->
+<!--            newThemeName.value = '';-->
+<!--        }-->
+
+<!--        return { themeStore, newThemeName, addTheme };-->
+<!--    },-->
+<!--};-->
+<!--</script>-->
+
+
 <template>
     <div class="themes">
-        <h1>Thèmes</h1>
-        <ul class="theme-list">
-            <li v-for="(theme, index) in themeStore.themes" :key="index" class="theme-item">
+        <h2>Thèmes</h2>
+        <select v-model="selectedCategory" class="theme-selector">
+            <option value="">Sélectionnez une catégorie</option>
+            <option v-for="(category, index) in categories" :key="index" :value="index">{{ category.name }}</option>
+        </select>
+        <ul v-if="selectedCategory !== ''" class="theme-list">
+            <li v-for="(theme, index) in themes" :key="index" class="theme-item">
                 {{ theme.name }}
-                <button class="theme-delete" @click="themeStore.removeTheme(index)">Supprimer</button>
+                <button @click="removeTheme(selectedCategory, index)" class="theme-delete">Supprimer</button>
             </li>
         </ul>
         <div class="theme-input-container">
-            <input v-model="newThemeName" class="theme-input" placeholder="Nom du thème" />
-            <button class="theme-add" @click="addTheme">Ajouter un thème</button>
+            <input v-model="newTheme" placeholder="Ajouter un thème" class="theme-input"/>
+            <button @click="addTheme" :disabled="selectedCategory === ''" class="theme-add">Ajouter</button>
         </div>
     </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useThemeStore } from '../stores/themeStore';
+import {useCategoryStore} from '../stores/categoryStore';
 
 export default {
-    setup() {
-        const themeStore = useThemeStore();
-        const newThemeName = ref('');
-
-        function addTheme() {
-            themeStore.addTheme({ name: newThemeName.value });
-            newThemeName.value = '';
-        }
-
-        return { themeStore, newThemeName, addTheme };
+    data() {
+        return {
+            newTheme: '',
+            selectedCategory: '',
+        };
+    },
+    computed: {
+        categories() {
+            const categoryStore = useCategoryStore();
+            return categoryStore.categories;
+        },
+        themes() {
+            if (this.selectedCategory !== '') {
+                return this.categories[this.selectedCategory].themes;
+            }
+            return [];
+        },
+    },
+    methods: {
+        addTheme() {
+            const categoryStore = useCategoryStore();
+            categoryStore.addTheme(this.selectedCategory, {
+                name: this.newTheme,
+                cards: [],
+            });
+            this.newTheme = '';
+        },
+        removeTheme(categoryIndex, themeIndex) {
+            const categoryStore = useCategoryStore();
+            categoryStore.removeTheme(categoryIndex, themeIndex);
+        },
     },
 };
 </script>
@@ -41,6 +101,14 @@ export default {
 .themes h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
+}
+
+.theme-selector {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
 }
 
 .theme-list {

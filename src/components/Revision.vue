@@ -1,12 +1,28 @@
 <template>
     <div class="revision">
         <h1>Révision</h1>
+        <select v-model="selectedCategory" @change="selectedTheme = ''" class="revision-selector">
+            <option value="">Sélectionnez une catégorie</option>
+            <option v-for="(category, index) in categories" :key="index" :value="index">{{ category.name }}</option>
+        </select>
+        <select v-model="selectedTheme" :disabled="selectedCategory === ''" class="revision-selector">
+            <option value="">Sélectionnez un thème</option>
+            <option v-for="(theme, index) in themes" :key="index" :value="index">{{ theme.name }}</option>
+        </select>
+
         <div v-if="currentCard" class="card">
             <div v-if="showFront" class="card-content">
-                {{ currentCard.front }}
+                <template v-if="currentCard.front.type === 'text'">{{ currentCard.front.content }}</template>
+                <img v-else-if="currentCard.front.type === 'image'" :src="currentCard.front.content" alt="Image"/>
+                <audio v-else-if="currentCard.front.type === 'audio'" :src="currentCard.front.content" controls></audio>
+                <video v-else-if="currentCard.front.type === 'video'" :src="currentCard.front.content" controls></video>
+                niveau de difficulté : {{ currentCard.difficulty }}
             </div>
             <div v-else class="card-content">
-                {{ currentCard.back }}
+                <template v-if="currentCard.back.type === 'text'">{{ currentCard.back.content }}</template>
+                <img v-else-if="currentCard.back.type === 'image'" :src="currentCard.back.content" alt="Image"/>
+                <audio v-else-if="currentCard.back.type === 'audio'" :src="currentCard.back.content" controls></audio>
+                <video v-else-if="currentCard.back.type === 'video'" :src="currentCard.back.content" controls></video>
             </div>
             <div class="card-actions">
                 <button class="card-action" @click="showFront = !showFront">Retourner la carte</button>
@@ -16,51 +32,82 @@
         <div v-else>
             <p>Aucune carte à réviser pour aujourd'hui.</p>
         </div>
-        <div class="revision-settings">
-            <label for="revisionLevels">Niveaux de révision :</label>
-            <input type="number" id="revisionLevels" v-model.number="revisionLevels" min="1" max="5" placeholder="1" @change="updateRevisionLevels" />
-        </div>
-        <div class="revision-settings">
-            <label for="newCardsPerDay">Nouvelles cartes par jour :</label>
-            <input type="number" id="newCardsPerDay" v-model.number="newCardsPerDay" min="1" max="10" @change="updateNewCardsPerDay" />
-        </div>
+
+<!--        <div class="revision-settings">-->
+<!--            <div>-->
+<!--                <label for="difficulty">Niveau de difficulté :</label>-->
+<!--                <select id="difficulty" v-model="selectedDifficulty" @change="updateRevisionLevels">-->
+<!--                    <option value="all">Tous les niveaux</option>-->
+<!--                    <option v-for="level in difficultyLevels" :value="level">{{ level }}</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <label for="cardsToReview">Nombre de cartes à réviser :</label>-->
+<!--                <input type="number" id="cardsToReview" v-model.number="cardsToReview" min="1" max="10"-->
+<!--                       @change="updateNewCardsPerDay"/>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useCardStore } from '../stores/cardStore';
+import {ref, computed, watch} from 'vue';
+import {useCategoryStore} from '../stores/categoryStore';
+import {useCardStore} from '../stores/cardStore';
 
 export default {
     setup() {
+        const categoryStore = useCategoryStore();
         const cardStore = useCardStore();
-        const currentCard = ref(cardStore.cards[0]);
-        const showFront = ref(true);
-        const { revisionLevels, newCardsPerDay, setRevisionLevels, setNewCardsPerDay } = useCardStore();
+        const selectedCategory = ref('');
+        const selectedTheme = ref('');
 
-        function updateRevisionLevels() {
-            setRevisionLevels(revisionLevels.value);
+        const categories = computed(() => categoryStore.categories);
+        const themes = computed(() => {
+            if (selectedCategory.value !== '') {
+                return categories.value[selectedCategory.value].themes;
+            }
+            return [];
+        });
+
+        const currentCard = ref(null);
+        const showFront = ref(true);
+
+        function getFilteredCards() {
+            if (selectedTheme.value === '') return [];
+            const cards = themes.value[selectedTheme.value].cards;
+            return cards;
         }
-        function updateNewCardsPerDay() {
-            setNewCardsPerDay(newCardsPerDay.value);
-        }
+
         function nextCard() {
-            const currentIndex = cardStore.cards.indexOf(currentCard.value);
-            if (currentIndex < cardStore.cards.length - 1) {
-                currentCard.value = cardStore.cards[currentIndex + 1];
+            const filteredCards = getFilteredCards();
+            const currentIndex = filteredCards.indexOf(currentCard.value);
+
+            if (currentIndex < filteredCards.length - 1) {
+                currentCard.value = filteredCards[currentIndex + 1];
             } else {
                 currentCard.value = null;
             }
             showFront.value = true;
         }
 
-        return { currentCard,
+        watch(selectedTheme, () => {
+            const filteredCards = getFilteredCards();
+            if (filteredCards.length > 0) {
+                currentCard.value = filteredCards[0];
+            } else {
+                currentCard.value = null;
+            }
+        });
+
+        return {
+            selectedCategory,
+            selectedTheme,
+            categories,
+            themes,
+            currentCard,
             showFront,
             nextCard,
-            revisionLevels,
-            newCardsPerDay,
-            updateRevisionLevels,
-            updateNewCardsPerDay,
         };
     },
 };
@@ -74,6 +121,16 @@ export default {
 .revision h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
+}
+
+.revision-selector {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
 }
 
 .card {

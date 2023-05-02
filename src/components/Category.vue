@@ -1,34 +1,79 @@
+<!--<template>-->
+<!--    <div class="categories">-->
+<!--        <h1>Catégories</h1>-->
+<!--        <ul class="category-list">-->
+<!--            <li v-for="(category, index) in categoryStore.categories" :key="index" class="category-item">-->
+<!--                {{ category }}-->
+<!--                <button class="category-delete" @click="categoryStore.removeCategory(index)">Supprimer</button>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--        <div class="category-input-container">-->
+<!--            <input v-model="newCategory" class="category-input" placeholder="Nom de la catégorie" />-->
+<!--            <button class="category-add" @click="addCategory">Ajouter une catégorie</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</template>-->
+
+<!--<script>-->
+<!--import {ref} from "vue";-->
+<!--import { useCategoryStore } from '../stores/categoryStore';-->
+
+<!--export default {-->
+<!--    setup() {-->
+<!--        const categoryStore = useCategoryStore();-->
+<!--        const newCategory = ref('');-->
+
+<!--        function addCategory() {-->
+<!--            categoryStore.addCategory(newCategory.value);-->
+<!--            newCategory.value = '';-->
+<!--        }-->
+
+<!--        return { categoryStore, newCategory, addCategory };-->
+<!--    },-->
+<!--};-->
+<!--</script>-->
+
 <template>
     <div class="categories">
-        <h1>Catégories</h1>
+        <h2>Categories</h2>
         <ul class="category-list">
-            <li v-for="(category, index) in categoryStore.categories" :key="index" class="category-item">
-                {{ category }}
-                <button class="category-delete" @click="categoryStore.removeCategory(index)">Supprimer</button>
+            <li v-for="(category, index) in categories" :key="index" class="category-item">
+                {{ category.name }}
+                <button @click="removeCategory(index)" class="category-delete">Supprimer</button>
             </li>
         </ul>
         <div class="category-input-container">
-            <input v-model="newCategory" class="category-input" placeholder="Nom de la catégorie" />
-            <button class="category-add" @click="addCategory">Ajouter une catégorie</button>
+            <input class="category-input" v-model="newCategory" placeholder="Ajouter une catégorie"/>
+            <button class="category-add" @click="addCategory">Ajouter</button>
         </div>
     </div>
 </template>
 
 <script>
-import {ref} from "vue";
-import { useCategoryStore } from '../stores/categoryStore';
+import {useCategoryStore} from '../stores/categoryStore';
 
 export default {
-    setup() {
-        const categoryStore = useCategoryStore();
-        const newCategory = ref('');
-
-        function addCategory() {
-            categoryStore.addCategory(newCategory.value);
-            newCategory.value = '';
-        }
-
-        return { categoryStore, newCategory, addCategory };
+    data() {
+        return {
+            newCategory: '',
+        };
+    },
+    computed: {
+        categories() {
+            const categoryStore = useCategoryStore();
+            return categoryStore.categories;
+        },
+    },
+    methods: {
+        addCategory() {
+            const categoryStore = useCategoryStore();
+            categoryStore.addCategory({name: this.newCategory});
+            this.newCategory = '';
+        },
+        removeCategory(index) {
+            const categoryStore = useCategoryStore();
+            categoryStore.removeCategory(index);
+        },
     },
 };
 </script>

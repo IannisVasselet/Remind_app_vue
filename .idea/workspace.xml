@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1ec9a5f-e97b-45cf-afb6-cd1472637e96" name="Changes" comment="" />
+    <list default="true" id="e1ec9a5f-e97b-45cf-afb6-cd1472637e96" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Card.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Card.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Category.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Category.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Revision.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Revision.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Theme.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Theme.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/cardStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/cardStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/categoryStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/categoryStore.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,7 +52,7 @@
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vasso/Dropbox/PC/Documents/YNOV/WEB FRONT/EXO/Remind_app/remind_app_v1&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vasso/Dropbox/PC/Documents/YNOV/NOSQL/APP.v1&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -56,6 +64,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vasso\Dropbox\PC\Documents\YNOV\WEB FRONT\EXO\Remind_app\remind_app_v1" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.npm dev">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
@@ -80,7 +93,15 @@
       <option name="presentableId" value="Default" />
       <updated>1682149228971</updated>
       <workItem from="1682149230988" duration="5811000" />
-      <workItem from="1682155101916" duration="8997000" />
+      <workItem from="1682155101916" duration="10484000" />
+      <workItem from="1682264948689" duration="13822000" />
+      <workItem from="1682322114848" duration="4508000" />
+      <workItem from="1682788418978" duration="30000" />
+      <workItem from="1682859974199" duration="2444000" />
+      <workItem from="1682967532866" duration="5327000" />
+      <workItem from="1683011471615" duration="79000" />
+      <workItem from="1683020601281" duration="4048000" />
+      <workItem from="1683046536600" duration="1001000" />
     </task>
     <servers />
   </component>
