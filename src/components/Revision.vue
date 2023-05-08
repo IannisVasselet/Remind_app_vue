@@ -1,15 +1,37 @@
 <template>
     <div class="revision">
         <h1>Révision</h1>
+        <div class="revision-settings">
+            <div class="revision-settings-item">
+                <label for="difficulty">Niveau de difficulté :</label>
+                <select v-model="selectedDifficulty" class="revision-selector">
+                    <option value="">Sélectionnez un niveau de difficulté</option>
+                    <option v-for="difficulty in difficulties" :key="difficulty" :value="difficulty">{{
+                            difficulty
+                        }}
+                    </option>
+                </select>
+            </div>
+            <div class="revision-settings-item">
+                <label for="cardsToReview">Nombre de cartes à réviser :</label>
+                <input v-model="cardsToReview" type="number" placeholder="Nombre de cartes à réviser"
+                       class="revision-input" min="1" max="10"/>
+            </div>
+<!--            <div class="revision-settings-item">-->
+<!--                <label for="levelsToReview">EveryDays :</label>-->
+<!--                <input v-model="levelsToReview" type="number" placeholder="Nombre de niveaux" class="revision-input"/>-->
+<!--                <input v-model="newCardsPerDay" type="number" placeholder="Nouvelles cartes par jour" class="revision-input"/>-->
+
+<!--            </div>-->
+        </div>
         <select v-model="selectedCategory" @change="selectedTheme = ''" class="revision-selector">
             <option value="">Sélectionnez une catégorie</option>
             <option v-for="(category, index) in categories" :key="index" :value="index">{{ category.name }}</option>
         </select>
-        <select v-model="selectedTheme" :disabled="selectedCategory === ''" class="revision-selector">
-            <option value="">Sélectionnez un thème</option>
+        <select v-model="selectedTheme" multiple :disabled="selectedCategory === ''" class="revision-selector">
+            <option value="">Sélectionnez un ou plusieurs thèmes</option>
             <option v-for="(theme, index) in themes" :key="index" :value="index">{{ theme.name }}</option>
         </select>
-
         <div v-if="currentCard" class="card">
             <div v-if="showFront" class="card-content">
                 <template v-if="currentCard.front.type === 'text'">{{ currentCard.front.content }}</template>
@@ -32,21 +54,6 @@
         <div v-else>
             <p>Aucune carte à réviser pour aujourd'hui.</p>
         </div>
-
-<!--        <div class="revision-settings">-->
-<!--            <div>-->
-<!--                <label for="difficulty">Niveau de difficulté :</label>-->
-<!--                <select id="difficulty" v-model="selectedDifficulty" @change="updateRevisionLevels">-->
-<!--                    <option value="all">Tous les niveaux</option>-->
-<!--                    <option v-for="level in difficultyLevels" :value="level">{{ level }}</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <label for="cardsToReview">Nombre de cartes à réviser :</label>-->
-<!--                <input type="number" id="cardsToReview" v-model.number="cardsToReview" min="1" max="10"-->
-<!--                       @change="updateNewCardsPerDay"/>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </template>
 
@@ -62,6 +69,13 @@ export default {
         const selectedCategory = ref('');
         const selectedTheme = ref('');
 
+        const selectedDifficulty = ref('');
+        const cardsToReview = ref('');
+        const difficulties = ref(['1', '2', '3', '4', '5']);
+
+        const levelsToReview = ref('');
+        const newCardsPerDay = ref('');
+
         const categories = computed(() => categoryStore.categories);
         const themes = computed(() => {
             if (selectedCategory.value !== '') {
@@ -73,10 +87,38 @@ export default {
         const currentCard = ref(null);
         const showFront = ref(true);
 
+        // function getFilteredCards() {
+        //     if (selectedTheme.value === '') return [];
+        //     let cards = themes.value[selectedTheme.value].cards;
+        //     if (selectedDifficulty.value) {
+        //         cards = cards.filter(card => card.difficulty === selectedDifficulty.value);
+        //     }
+        //     if (cardsToReview.value) {
+        //         cards = cards.slice(0, cardsToReview.value);
+        //     }
+        //     return cards;
+        // }
+
         function getFilteredCards() {
-            if (selectedTheme.value === '') return [];
-            const cards = themes.value[selectedTheme.value].cards;
-            return cards;
+            let filteredCards = [];
+            if (selectedTheme.value.length === 0) return [];
+            selectedTheme.value.forEach(themeIndex => {
+                let cards = themes.value[themeIndex].cards;
+                if (selectedDifficulty.value) {
+                    cards = cards.filter(card => card.difficulty === selectedDifficulty.value);
+                }
+                if (levelsToReview.value) {
+                    cards = cards.filter(card => card.level <= levelsToReview.value);
+                }
+                // if (newCardsPerDay.value) {
+                //     cards = cards.slice(0, newCardsPerDay.value);
+                // }
+                if (cardsToReview.value) {
+                    cards = cards.slice(0, cardsToReview.value);
+                }
+                filteredCards = [...filteredCards, ...cards];
+            });
+            return filteredCards;
         }
 
         function nextCard() {
@@ -108,6 +150,11 @@ export default {
             currentCard,
             showFront,
             nextCard,
+            selectedDifficulty,
+            cardsToReview,
+            difficulties,
+            levelsToReview,
+            newCardsPerDay,
         };
     },
 };
@@ -169,6 +216,23 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
+}
+
+.revision-settings-item {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    position: relative;
+    display: flex;
+    margin: 1%;
+    flex: 1 1 30%;
+    justify-content: space-between;
+    min-width: 0;
+    word-wrap: break-word;
+    height: 50px;
+    align-items: center;
 }
 
 .revision-settings label {
