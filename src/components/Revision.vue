@@ -7,7 +7,7 @@
                 <select v-model="selectedDifficulty" class="revision-selector">
                     <option value="">Sélectionnez un niveau de difficulté</option>
                     <option v-for="difficulty in difficulties" :key="difficulty" :value="difficulty">{{
-                            difficulty
+                        difficulty
                         }}
                     </option>
                 </select>
@@ -17,12 +17,6 @@
                 <input v-model="cardsToReview" type="number" placeholder="Nombre de cartes à réviser"
                        class="revision-input" min="1" max="10"/>
             </div>
-<!--            <div class="revision-settings-item">-->
-<!--                <label for="levelsToReview">EveryDays :</label>-->
-<!--                <input v-model="levelsToReview" type="number" placeholder="Nombre de niveaux" class="revision-input"/>-->
-<!--                <input v-model="newCardsPerDay" type="number" placeholder="Nouvelles cartes par jour" class="revision-input"/>-->
-
-<!--            </div>-->
         </div>
         <select v-model="selectedCategory" @change="selectedTheme = ''" class="revision-selector">
             <option value="">Sélectionnez une catégorie</option>
@@ -46,10 +40,24 @@
                 <audio v-else-if="currentCard.back.type === 'audio'" :src="currentCard.back.content" controls></audio>
                 <video v-else-if="currentCard.back.type === 'video'" :src="currentCard.back.content" controls></video>
             </div>
-            <div class="card-actions">
-                <button class="card-action" @click="showFront = !showFront">Retourner la carte</button>
-                <button class="card-action" @click="nextCard">Carte suivante</button>
+<!--            <div class="card-actions">-->
+<!--                <button class="card-action" @click="showFront = !showFront">Retourner la carte</button>-->
+<!--                <button class="card-action" @click="nextCard">Carte suivante</button>-->
+<!--            </div>-->
+            <div class="card-answers">
+                <div
+                        v-for="(answer, index) in currentCard.answers"
+                        :key="index"
+                        @click="userAnswers[index] = userAnswers[index] === answer ? null : answer"
+                        :class="{ 'selected': userAnswers[index] }"
+                >
+                    <div class="card-answers-item">
+                        {{ answer }}
+                    </div>
+                </div>
             </div>
+            <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+            <button @click="checkAnswers">Soumettre</button>
         </div>
         <div v-else>
             <p>Aucune carte à réviser pour aujourd'hui.</p>
@@ -87,17 +95,11 @@ export default {
         const currentCard = ref(null);
         const showFront = ref(true);
 
-        // function getFilteredCards() {
-        //     if (selectedTheme.value === '') return [];
-        //     let cards = themes.value[selectedTheme.value].cards;
-        //     if (selectedDifficulty.value) {
-        //         cards = cards.filter(card => card.difficulty === selectedDifficulty.value);
-        //     }
-        //     if (cardsToReview.value) {
-        //         cards = cards.slice(0, cardsToReview.value);
-        //     }
-        //     return cards;
-        // }
+        const userAnswers = ref([]);
+        const currentLevel = ref(1);
+        const errorMessage = ref("");
+        const currentIndex = ref(0);
+
 
         function getFilteredCards() {
             let filteredCards = [];
@@ -110,9 +112,6 @@ export default {
                 if (levelsToReview.value) {
                     cards = cards.filter(card => card.level <= levelsToReview.value);
                 }
-                // if (newCardsPerDay.value) {
-                //     cards = cards.slice(0, newCardsPerDay.value);
-                // }
                 if (cardsToReview.value) {
                     cards = cards.slice(0, cardsToReview.value);
                 }
@@ -122,11 +121,19 @@ export default {
         }
 
         function nextCard() {
+            // const filteredCards = getFilteredCards();
+            // const currentIndex = filteredCards.indexOf(currentCard.value);
+            //
+            // if (currentIndex < filteredCards.length - 1) {
+            //     currentCard.value = filteredCards[currentIndex + 1];
+            // } else {
+            //     currentCard.value = null;
+            // }
+            // showFront.value = true;
             const filteredCards = getFilteredCards();
-            const currentIndex = filteredCards.indexOf(currentCard.value);
 
-            if (currentIndex < filteredCards.length - 1) {
-                currentCard.value = filteredCards[currentIndex + 1];
+            if (currentIndex.value < filteredCards.length) {
+                currentCard.value = filteredCards[currentIndex.value];
             } else {
                 currentCard.value = null;
             }
@@ -142,6 +149,33 @@ export default {
             }
         });
 
+        function checkAnswers() {
+            let isCorrect = true;
+            console.log("Réponse de la carte :" + currentCard.value.back.content);
+            console.log("Réponse de l'utilisateur :" + userAnswers.value);
+            userAnswers.value.forEach((answer, index) => {
+                if (answer !== currentCard.value.back.content) {
+                    isCorrect = false;
+                    console.log("erreur");
+                }
+            });
+            if (isCorrect) {
+                errorMessage.value = "";
+                if (currentLevel.value < 5) {
+                    currentLevel.value += 1;
+                }
+                currentIndex.value += 1;
+            } else {
+                errorMessage.value = "Réponse incorrecte. La série recommence.";
+                currentIndex.value = 0;
+            }
+            // on vide la liste des réponses
+            userAnswers.value = [];
+
+            nextCard();
+        }
+
+
         return {
             selectedCategory,
             selectedTheme,
@@ -155,6 +189,11 @@ export default {
             difficulties,
             levelsToReview,
             newCardsPerDay,
+            checkAnswers,
+            userAnswers,
+            currentLevel,
+            errorMessage,
+            currentIndex,
         };
     },
 };
@@ -190,6 +229,22 @@ export default {
 .card-content {
     font-size: 1.25rem;
     margin-bottom: 1rem;
+}
+
+.card-answers {
+    background-color: #f5f5f5;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.card-answers-item {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.card-answers-item:hover {
+    cursor: pointer;
 }
 
 .card-actions {

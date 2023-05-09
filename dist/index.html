@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+    <script type="module" crossorigin src="/assets/index-33aa33af.js"></script>
+    <link rel="stylesheet" href="/assets/index-c33d9f39.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body>
+    <div id="app"></div>
+  </body>
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(
+                (registration) => {
+                  console.log('Service Worker registered with scope: ', registration.scope);
+                },
+                (err) => {
+                  console.log('Service Worker registration failed: ', err);
+                }
+        );
+      });
+    }
+  </script>
+
+</html>
+
