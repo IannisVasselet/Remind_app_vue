@@ -118,11 +118,13 @@ export default {
 
 .theme-item {
     background-color: #f5f5f5;
+    color: #282828;
     padding: 1rem;
     margin-bottom: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 10px;
 }
 
 .theme-delete {
@@ -148,12 +150,12 @@ export default {
     flex: 1;
     border: 1px solid #ccc;
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: 10px;
     margin-right: 0.5rem;
 }
 
 .theme-add {
-    background-color: #4DBA87;
+    background-color: #00009f;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -163,6 +165,6 @@ export default {
 }
 
 .theme-add:hover {
-    background-color: #319a6b;
+    background-color: #1919cb;
 }
 </style>

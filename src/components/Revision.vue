@@ -40,10 +40,10 @@
                 <audio v-else-if="currentCard.back.type === 'audio'" :src="currentCard.back.content" controls></audio>
                 <video v-else-if="currentCard.back.type === 'video'" :src="currentCard.back.content" controls></video>
             </div>
-<!--            <div class="card-actions">-->
-<!--                <button class="card-action" @click="showFront = !showFront">Retourner la carte</button>-->
+            <div class="card-actions">
+                <button class="card-action" @click="showFront = !showFront">Retourner la carte</button>
 <!--                <button class="card-action" @click="nextCard">Carte suivante</button>-->
-<!--            </div>-->
+            </div>
             <div class="card-answers">
                 <div
                         v-for="(answer, index) in currentCard.answers"
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-            <button @click="checkAnswers">Soumettre</button>
+            <button @click="checkAnswers" class="card-action">Soumettre</button>
         </div>
         <div v-else>
             <p>Aucune carte à réviser pour aujourd'hui.</p>
@@ -217,13 +217,17 @@ export default {
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    margin: 1%;
 }
 
 .card {
     background-color: #f5f5f5;
+    color: #282828;
     padding: 1rem;
     margin-bottom: 1rem;
     text-align: center;
+    border-radius: 10px;
+    opacity: 0.7;
 }
 
 .card-content {
@@ -253,7 +257,7 @@ export default {
 }
 
 .card-action {
-    background-color: #4DBA87;
+    background-color: #00009f;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -264,13 +268,14 @@ export default {
 }
 
 .card-action:hover {
-    background-color: #319a6b;
+    background-color: #1919cb;
 }
 
 .revision-settings {
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
+    color: #282828;
 }
 
 .revision-settings-item {
@@ -278,7 +283,7 @@ export default {
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     border: 1px solid #ccc;
-    padding: 0.5rem;
+    padding: 1.5rem;
     position: relative;
     display: flex;
     margin: 1%;
@@ -288,6 +293,7 @@ export default {
     word-wrap: break-word;
     height: 50px;
     align-items: center;
+    flex-direction: column;
 }
 
 .revision-settings label {
@@ -299,4 +305,17 @@ export default {
     padding: 0.5rem;
     border-radius: 4px;
 }
+
+@media (max-width: 768px) {
+    .revision-settings {
+        flex-direction: column;
+    }
+
+    .revision-settings-item {
+        margin: 1% 0;
+        width: -moz-available;
+    }
+
+}
+
 </style>

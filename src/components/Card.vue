@@ -239,7 +239,7 @@
         </ul>
         <div class="card-input-container">
             <ul v-if="selectedTheme !== ''" class="card-list">
-                <li class="card-item">
+                <li class="card-item" id="card-item">
                     <!-- Front type selector -->
                     <select v-model="newCard.front.type" class="card-selector-item">
                         <option value="text" selected>Texte</option>
@@ -405,11 +405,12 @@ export default {
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 1rem;
+    margin: 1%;
 }
 
 .card-selector-item {
     flex: 1;
-    margin-right: 1rem;
+    margin: auto 1rem;
     background-color: transparent;
     border-radius: 4px;
     border: 1px solid #ccc;
@@ -423,11 +424,17 @@ export default {
 
 .card-item {
     background-color: #f5f5f5;
+    color: #282828;
     padding: 1rem;
     margin-bottom: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 10px;
+}
+
+#card-item {
+    margin: 0 1rem;
 }
 
 .card-delete {
@@ -453,21 +460,38 @@ export default {
     flex: 1;
     border: 1px solid #ccc;
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: 10px;
     margin-right: 0.5rem;
 }
 
 .card-add {
-    background-color: #4DBA87;
+    background-color: #00009f;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    height: fit-content;
+    align-self: center;
 }
 
 .card-add:hover {
-    background-color: #319a6b;
+    background-color: #1919cb;
+}
+
+@media (max-width: 768px) {
+    .card-selector {
+        flex-direction: column;
+    }
+
+    .card-selector-item {
+        margin: 0.5rem 0;
+    }
+
+    #card-item {
+        width: -moz-available;
+        flex-direction: column;
+    }
 }
 </style>

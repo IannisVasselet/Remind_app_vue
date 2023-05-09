@@ -1,38 +1,3 @@
-<!--<template>-->
-<!--    <div class="categories">-->
-<!--        <h1>Catégories</h1>-->
-<!--        <ul class="category-list">-->
-<!--            <li v-for="(category, index) in categoryStore.categories" :key="index" class="category-item">-->
-<!--                {{ category }}-->
-<!--                <button class="category-delete" @click="categoryStore.removeCategory(index)">Supprimer</button>-->
-<!--            </li>-->
-<!--        </ul>-->
-<!--        <div class="category-input-container">-->
-<!--            <input v-model="newCategory" class="category-input" placeholder="Nom de la catégorie" />-->
-<!--            <button class="category-add" @click="addCategory">Ajouter une catégorie</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--import {ref} from "vue";-->
-<!--import { useCategoryStore } from '../stores/categoryStore';-->
-
-<!--export default {-->
-<!--    setup() {-->
-<!--        const categoryStore = useCategoryStore();-->
-<!--        const newCategory = ref('');-->
-
-<!--        function addCategory() {-->
-<!--            categoryStore.addCategory(newCategory.value);-->
-<!--            newCategory.value = '';-->
-<!--        }-->
-
-<!--        return { categoryStore, newCategory, addCategory };-->
-<!--    },-->
-<!--};-->
-<!--</script>-->
-
 <template>
     <div class="categories">
         <h2>Categories</h2>
@@ -95,11 +60,13 @@ export default {
 
 .category-item {
     background-color: #f5f5f5;
+    color: #282828;
     padding: 1rem;
     margin-bottom: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 10px;
 }
 
 .category-delete {
@@ -125,12 +92,12 @@ export default {
     flex: 1;
     border: 1px solid #ccc;
     padding: 0.5rem;
-    border-radius: 4px;
+    border-radius: 10px;
     margin-right: 0.5rem;
 }
 
 .category-add {
-    background-color: #4DBA87;
+    background-color: #00009f;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
@@ -140,6 +107,6 @@ export default {
 }
 
 .category-add:hover {
-    background-color: #319a6b;
+    background-color: #1919cb
 }
 </style>

@@ -37,7 +37,7 @@ export default {
 }
 
 .home-cta-link {
-    background-color: #4DBA87;
+    background-color: #00009f;
     color: #fff;
     padding: 0.75rem 1.5rem;
     border-radius: 4px;
@@ -47,6 +47,6 @@ export default {
 }
 
 .home-cta-link:hover {
-    background-color: #319a6b;
+    background-color: #1919cb;
 }
 </style>
