@@ -49,7 +49,7 @@
                         v-for="(answer, index) in currentCard.answers"
                         :key="index"
                         @click="userAnswers[index] = userAnswers[index] === answer ? null : answer"
-                        :class="{ 'selected': userAnswers[index] }"
+                        :class="{ 'selected list-answer-item': userAnswers[index] }"
                 >
                     <div class="card-answers-item">
                         {{ answer }}
@@ -222,7 +222,7 @@ export default {
 
 .card {
     background-color: #f5f5f5;
-    color: #282828;
+    color: black;
     padding: 1rem;
     margin-bottom: 1rem;
     text-align: center;
@@ -304,6 +304,12 @@ export default {
     border: 1px solid #ccc;
     padding: 0.5rem;
     border-radius: 4px;
+}
+
+.list-answer-item {
+    text-decoration: underline #000000;
+    font-weight: bold;
+    font-size: 1.25rem;
 }
 
 @media (max-width: 768px) {
