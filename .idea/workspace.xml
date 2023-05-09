@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e1ec9a5f-e97b-45cf-afb6-cd1472637e96" name="Changes" comment="Card.vue fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Revision.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Revision.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/categoryStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/categoryStore.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +24,7 @@
         <option value="HTML File" />
         <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="tsconfig.json" />
       </list>
     </option>
   </component>
@@ -56,6 +59,7 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;ruby.rails.projectView.checked&quot;: &quot;true&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -130,7 +134,11 @@
       <workItem from="1683489587783" duration="1245000" />
       <workItem from="1683553003511" duration="8781000" />
       <workItem from="1683576846234" duration="593000" />
-      <workItem from="1683616084498" duration="9944000" />
+      <workItem from="1683616084498" duration="10509000" />
+      <workItem from="1683633711570" duration="1795000" />
+      <workItem from="1683639160650" duration="796000" />
+      <workItem from="1683641991866" duration="1518000" />
+      <workItem from="1683650617241" duration="9547000" />
     </task>
     <task id="LOCAL-00001" summary="Card.vue fix">
       <created>1683047693944</created>

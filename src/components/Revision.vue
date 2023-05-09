@@ -312,6 +312,12 @@ export default {
     font-size: 1.25rem;
 }
 
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-blink: 1s;
+}
+
 @media (max-width: 768px) {
     .revision-settings {
         flex-direction: column;
