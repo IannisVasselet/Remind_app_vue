@@ -10,6 +10,8 @@
   - [Composants](#composants)
   - [Store](#store)
   - [Fonctionnement hors-ligne](#fonctionnement-hors-ligne)
+- [Docker](#docker)
+  - [Commandes Docker](#commandes-docker)
 
 
 ## Installation du projet

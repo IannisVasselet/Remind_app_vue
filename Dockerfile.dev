@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 3000
 
 # Définissez la commande pour démarrer votre application
+#CMD ["npx", "vite"]
 CMD ["npm", "run", "dev"]
